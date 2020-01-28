@@ -1,0 +1,34 @@
+--- 
+title: "`Saemix`: Open Source R package for mixed effects modeling"
+author: "Marc Lavielle, Emmanuelle Comets, Audrey Lavenu and Belhal Karimi"
+date: "`r Sys.Date()`"
+bibliography: [book.bib, packages.bib]
+description: User's guide and documentation for saemix
+documentclass: book
+link-citations: yes
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+biblio-style: "apalike"
+urlcolor: blue
+---
+
+# Welcome to mixed effects modeling in R {-}
+test
+
+```{r logo-fig, fig.cap='', out.width='60%', fig.asp=.75, fig.align='center', echo=FALSE}
+knitr::include_graphics("figures/logo1.jpg")
+```
+
+`saemix` is licensed under [GPL-2](https://cran.r-project.org/web/licenses/GPL-2) | [GPL-3](https://cran.r-project.org/web/licenses/GPL-3) [expanded from: GPL (>=2)].
+
+
+
+<!-- Written in **bookdown** [@R-bookdown] and [@xie2015] -->
+
+
+<!-- ```{r include=FALSE} -->
+<!-- # automatically create a bib database for R packages -->
+<!-- knitr::write_bib(c( -->
+<!--   .packages(), 'bookdown', 'knitr', 'rmarkdown' -->
+<!-- ), 'packages.bib') -->
+<!-- ``` -->

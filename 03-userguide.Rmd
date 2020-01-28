@@ -1,0 +1,13 @@
+# User guide {#userguide}
+
+
+<!-- ## Posters and Presentations -->
+## Posters, Presentations and Publications
+
+```{r echo=FALSE, results='hide'}
+file.copy("posters", "docs/posters", overwrite = TRUE)
+```
+
+- PAGE 2016, City, Country: <a href="posters/test.pdf" target="_blank">TestSlides</a>
+
+Various other publications can be found [here](https://github.com/saemixdevelopment/Publications).

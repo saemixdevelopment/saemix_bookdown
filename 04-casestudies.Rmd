@@ -1,0 +1,72 @@
+# Case Studies  {#casestudies}
+
+Some basic Case Studies are demonstrated in this chapter; the vignettes will be discussing the application in more depth. 
+
+
+
+<!-- saemix vignette -->
+
+## `saemix`
+
+```{r eval=FALSE}
+library(saemix)
+?saemix
+```
+
+### Rationale
+
+ `saemix` estimation routines have their own way of specifying
+ models. 
+ 
+
+ **Initial Values**
+
+ `saemix` models are contained in a R function with two blocks:
+
+```{r eval=FALSE}
+Some R Code
+
+
+```
+
+### Some examples
+
+#### A two-compartment PK model 
+
+The model:
+
+```{r eval=F}
+
+theomodel <- function() {
+  ini({
+    tka <- log(1.14)
+    tcl <- log(0.0190)
+    tv2  <- log(2.12)
+    tv3  <- log(20.4)
+    tq   <- log(0.383)
+    wteff  <- 0.35
+    sexeff <- -0.2
+    eta.ka ~ 1
+    eta.cl ~ 1
+    eta.v2 ~ 1
+    eta.v3 ~ 1
+    eta.q ~ 1
+    prop.err <- 0.075
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + wteff*lWT + eta.cl)
+    v2 <- exp(tv2 + sexeff*SEX + eta.v2)
+    v3 <- exp(tv3 + eta.v3)
+    q  <- exp(tq + eta.q)
+    d/dt(depot) = -ka * depot
+    d/dt(center) = ka * depot - cl / v2 * center + q/v3 * periph - q/v2 * center
+    d/dt(periph) = q/v2 * center - q/v3 * periph
+    cp = center / v2
+    cp ~ prop(prop.err)
+  })
+}
+
+fit <- saemix()
+
+```

@@ -1,0 +1,21 @@
+# Installation  {#install}
+
+`saemix` can be installed and used on several platforms. Installation can range from easy to challenging, depending on the platform. We are in the process of streamlining this process, and any help or suggestions are greatly appreciated!
+
+
+
+<!-- Windows installer -->
+
+## `saemix`
+Information on how to install 'saemix' and its dependencies on different platforms can be found on the [`saemix` pkgdown site](https://saemixdevelopment.github.io/saemix/index.html). Separate information can be found on [`RxODE` pkgdown site](https://saemixdevelopment.github.io/RxODE/index.html).
+
+
+<!-- docker installation  -->
+### Installation via GitHub
+
+To Complete
+
+
+<!-- shinyMixR -->
+## `shinyMixR`: project management tool
+A user-friendly tool was developed for `saemix` based on [`Shiny`](http://shiny.rstudio.com/) 

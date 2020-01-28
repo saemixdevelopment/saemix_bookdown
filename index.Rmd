@@ -16,7 +16,7 @@ urlcolor: blue
 The saemix project is an R package available in CRAN that implements the Stochastic Approximation of the EM (SAEM) algorithm introduced in [@kuhn]. 
 This algorithm is state-of-the-art method for fitting, possibly non linear, models in agronomy, animal breeding or Pharmacokinetics-Pharmacodynamics (PKPD) analysis. 
 
-The main area using the package thus far is Pharmacology, especially to understand how drugs, under development, behave in the body or how the body reacts to a drug during clinical trials.
+Thus far, the main area using the package thus far is Pharmacology, especially to understand how drugs, under development, behave in the body or how the body reacts to a drug during clinical trials but we ought to aim at a more general audience of biostatisticians dealing with nonlinear mixed effects modeling.
 
 ```{r logo-fig, fig.cap='', out.width='60%', fig.asp=.75, fig.align='center', echo=FALSE}
 knitr::include_graphics("figures/logo1.jpg")

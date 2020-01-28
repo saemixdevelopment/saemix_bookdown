@@ -1,21 +1,10 @@
 # Introduction {#intro}
 
-You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+The `saemix` package for R provides maximum likelihood estimates of parameters in nonlinear mixed effect models (NLMEM), using a modern and efficient estimation algorithm, the Stochastic Approximation of the Expectation-Maximisation (SAEM).
 
-Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
+Longitudinal data arise in many fields, such as agronomy, spatial analysis, imagery, clinical trials, and have been particularly prominent in the field of pharmacokinetics (PK) and pharmacodynamics (PD), where increasingly complex models involving mechanistic and empirical processes have been developed to describe the time course of and responses to drugs. Nonlinear models pose unique challenges in terms of estimation methods, and have driven the research to provide better estimation of parameters as well as the associated uncertainty, diagnostics of model misspecification and more informative designs. The SAEM algorithm, based on two highly cited publications by one of our project members Marc Lavielle, see [@lavielle] and [@kuhn], was implemented in R in 2011 in the `saemix` R package~[@saemix2017]. Several applications of SAEM in agronomy, animal breeding and PKPD analysis have been published using `saemix`.
 
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
-```
+PK/PD analyses are now a fundamental element of the registration file submitted to health authority for the approval of new drugs, but NLMEM are also increasingly applied to other areas. In clinical trials, they complement the point analyses by offering a unique understanding of the evolution of disease or treatment action. In cohort studies, they allow to model trajectories such as growth or cognitive decline. Joint models are now routinely used to link the evolution of markers with the occurrence of an event. Making use of S4 classes and methods to provide user-friendly interaction, `saemix` provides a new estimation tool with a powerful exact algorithm to the R community.
+The `saemix` package for R provides maximum likelihood estimates of parameters in nonlinear mixed effect (NLME) models, using a modern and efficient estimation algorithm, the Stochastic Approximation of the Expectation-Maximisation (SAEM) algorithm based on two highly cited publication by one of our project member Marc Lavielle, see [@lavielle] and [@kuhn]. 
+Making use of S4 classes and methods to provide user-friendly interaction, this package provides a new estimation tool to the R community.
 
-Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
-
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(iris, 20), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
-```
-
-You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].

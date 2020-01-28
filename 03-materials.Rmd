@@ -1,0 +1,24 @@
+# Materials {#materials}
+
+
+<!-- ## User's Guide -->
+## User's Guide
+
+```{r echo=FALSE, results='hide'}
+file.copy("posters", "docs/posters", overwrite = TRUE)
+```
+
+- Saemix User's Guide: <a href="pdfs/userguide.pdf" target="_blank">PDF</a>
+
+
+<!-- ## Posters and Presentations -->
+## Posters and Presentations
+
+```{r echo=FALSE, results='hide'}
+file.copy("posters", "docs/posters", overwrite = TRUE)
+```
+
+- PAGE 2011, Athens, Greece: <a href="pdfs/saemixPAGE.pdf" target="_blank">PosterPAGE</a>
+
+
+Various other publications can be found [here](https://github.com/saemixdevelopment/Publications).

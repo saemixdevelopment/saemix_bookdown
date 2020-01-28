@@ -1,5 +1,5 @@
 # Contacts {-}
 
-You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+saemix is maintained by Emmanuelle Comets (emmanuelle.comets@inserm.fr) Inserm U738, Paris, France and CIC 0203, Rennes, France and Belhal Karimi (belhal.karimi@polytechnique.edu).
 
-Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
+Please address any questions, bug notice or suggestions.

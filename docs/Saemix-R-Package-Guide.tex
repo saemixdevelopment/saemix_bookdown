@@ -128,7 +128,15 @@
 R}\label{welcome-to-mixed-effects-modeling-in-r}
 \addcontentsline{toc}{chapter}{Welcome to mixed effects modeling in R}
 
-test
+The saemix project is an R package available in CRAN that implements the
+Stochastic Approximation of the EM (SAEM) algorithm introduced in
+\citep{kuhn}. This algorithm is state-of-the-art method for fitting,
+possibly non linear, models in agronomy, animal breeding or
+Pharmacokinetics-Pharmacodynamics (PKPD) analysis.
+
+The main area using the package thus far is Pharmacology, especially to
+understand how drugs, under development, behave in the body or how the
+body reacts to a drug during clinical trials.
 
 \begin{figure}
 
@@ -145,82 +153,45 @@ from: GPL (\textgreater{}=2){]}.
 
 \chapter{Introduction}\label{intro}
 
-You can label chapter and section titles using \texttt{\{\#label\}}
-after them, e.g., we can reference Chapter \ref{intro}. If you do not
-manually label them, there will be automatic labels anyway, e.g.,
-Chapter \ref{methods}.
+The \texttt{saemix} package for R provides maximum likelihood estimates
+of parameters in nonlinear mixed effect models (NLMEM), using a modern
+and efficient estimation algorithm, the Stochastic Approximation of the
+Expectation-Maximisation (SAEM).
 
-Figures and tables with captions will be placed in \texttt{figure} and
-\texttt{table} environments, respectively.
+Longitudinal data arise in many fields, such as agronomy, spatial
+analysis, imagery, clinical trials, and have been particularly prominent
+in the field of pharmacokinetics (PK) and pharmacodynamics (PD), where
+increasingly complex models involving mechanistic and empirical
+processes have been developed to describe the time course of and
+responses to drugs. Nonlinear models pose unique challenges in terms of
+estimation methods, and have driven the research to provide better
+estimation of parameters as well as the associated uncertainty,
+diagnostics of model misspecification and more informative designs. The
+SAEM algorithm, based on two highly cited publications by one of our
+project members Marc Lavielle, see \citep{lavielle} and \citep{kuhn},
+was implemented in R in 2011 in the \texttt{saemix} R
+package\textasciitilde{}\citep{saemix2017}. Several applications of SAEM
+in agronomy, animal breeding and PKPD analysis have been published using
+\texttt{saemix}.
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar =} \KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, .}\DecValTok{1}\NormalTok{, .}\DecValTok{1}\NormalTok{))}
-\KeywordTok{plot}\NormalTok{(pressure, }\DataTypeTok{type =} \StringTok{'b'}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.8\linewidth]{Saemix-R-Package-Guide_files/figure-latex/nice-fig-1} 
-
-}
-
-\caption{Here is a nice figure!}\label{fig:nice-fig}
-\end{figure}
-
-Reference a figure by its code chunk label with the \texttt{fig:}
-prefix, e.g., see Figure \ref{fig:nice-fig}. Similarly, you can
-reference tables generated from \texttt{knitr::kable()}, e.g., see Table
-\ref{tab:nice-tab}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{knitr::}\KeywordTok{kable}\NormalTok{(}
-  \KeywordTok{head}\NormalTok{(iris, }\DecValTok{20}\NormalTok{), }\DataTypeTok{caption =} \StringTok{'Here is a nice table!'}\NormalTok{,}
-  \DataTypeTok{booktabs =} \OtherTok{TRUE}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{table}
-
-\caption{\label{tab:nice-tab}Here is a nice table!}
-\centering
-\begin{tabular}[t]{rrrrl}
-\toprule
-Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species\\
-\midrule
-5.1 & 3.5 & 1.4 & 0.2 & setosa\\
-4.9 & 3.0 & 1.4 & 0.2 & setosa\\
-4.7 & 3.2 & 1.3 & 0.2 & setosa\\
-4.6 & 3.1 & 1.5 & 0.2 & setosa\\
-5.0 & 3.6 & 1.4 & 0.2 & setosa\\
-\addlinespace
-5.4 & 3.9 & 1.7 & 0.4 & setosa\\
-4.6 & 3.4 & 1.4 & 0.3 & setosa\\
-5.0 & 3.4 & 1.5 & 0.2 & setosa\\
-4.4 & 2.9 & 1.4 & 0.2 & setosa\\
-4.9 & 3.1 & 1.5 & 0.1 & setosa\\
-\addlinespace
-5.4 & 3.7 & 1.5 & 0.2 & setosa\\
-4.8 & 3.4 & 1.6 & 0.2 & setosa\\
-4.8 & 3.0 & 1.4 & 0.1 & setosa\\
-4.3 & 3.0 & 1.1 & 0.1 & setosa\\
-5.8 & 4.0 & 1.2 & 0.2 & setosa\\
-\addlinespace
-5.7 & 4.4 & 1.5 & 0.4 & setosa\\
-5.4 & 3.9 & 1.3 & 0.4 & setosa\\
-5.1 & 3.5 & 1.4 & 0.3 & setosa\\
-5.7 & 3.8 & 1.7 & 0.3 & setosa\\
-5.1 & 3.8 & 1.5 & 0.3 & setosa\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-You can write citations, too. For example, we are using the
-\textbf{bookdown} package \citep{R-bookdown} in this sample book, which
-was built on top of R Markdown and \textbf{knitr} \citep{xie2015}.
+PK/PD analyses are now a fundamental element of the registration file
+submitted to health authority for the approval of new drugs, but NLMEM
+are also increasingly applied to other areas. In clinical trials, they
+complement the point analyses by offering a unique understanding of the
+evolution of disease or treatment action. In cohort studies, they allow
+to model trajectories such as growth or cognitive decline. Joint models
+are now routinely used to link the evolution of markers with the
+occurrence of an event. Making use of S4 classes and methods to provide
+user-friendly interaction, \texttt{saemix} provides a new estimation
+tool with a powerful exact algorithm to the R community. The
+\texttt{saemix} package for R provides maximum likelihood estimates of
+parameters in nonlinear mixed effect (NLME) models, using a modern and
+efficient estimation algorithm, the Stochastic Approximation of the
+Expectation-Maximisation (SAEM) algorithm based on two highly cited
+publication by one of our project member Marc Lavielle, see
+\citep{lavielle} and \citep{kuhn}. Making use of S4 classes and methods
+to provide user-friendly interaction, this package provides a new
+estimation tool to the R community.
 
 \chapter{Installation}\label{install}
 
@@ -248,15 +219,22 @@ tool}{shinyMixR: project management tool}}\label{shinymixr-project-management-to
 A user-friendly tool was developed for \texttt{saemix} based on
 \href{http://shiny.rstudio.com/}{\texttt{Shiny}}
 
-\chapter{User guide}\label{userguide}
+\chapter{Materials}\label{materials}
 
-\section{Posters, Presentations and
-Publications}\label{posters-presentations-and-publications}
+\section{User's Guide}\label{users-guide}
 
 \begin{itemize}
 \tightlist
 \item
-  PAGE 2016, City, Country: TestSlides
+  Saemix User's Guide: PDF
+\end{itemize}
+
+\section{Posters and Presentations}\label{posters-and-presentations}
+
+\begin{itemize}
+\tightlist
+\item
+  PAGE 2011, Athens, Greece: PosterPAGE
 \end{itemize}
 
 Various other publications can be found
@@ -337,13 +315,13 @@ The model:
 \chapter*{Contacts}\label{contacts}
 \addcontentsline{toc}{chapter}{Contacts}
 
-You can label chapter and section titles using \texttt{\{\#label\}}
-after them, e.g., we can reference Chapter \ref{intro}. If you do not
-manually label them, there will be automatic labels anyway, e.g.,
-Chapter \ref{methods}.
+saemix is maintained by Emmanuelle Comets
+(\href{mailto:emmanuelle.comets@inserm.fr}{\nolinkurl{emmanuelle.comets@inserm.fr}})
+Inserm U738, Paris, France and CIC 0203, Rennes, France and Belhal
+Karimi
+(\href{mailto:belhal.karimi@polytechnique.edu}{\nolinkurl{belhal.karimi@polytechnique.edu}}).
 
-Figures and tables with captions will be placed in \texttt{figure} and
-\texttt{table} environments, respectively.
+Please address any questions, bug notice or suggestions.
 
 \bibliography{book.bib,packages.bib}
 

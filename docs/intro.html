@@ -114,8 +114,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="2.2" data-path="install.html"><a href="install.html#shinymixr-project-management-tool"><i class="fa fa-check"></i><b>2.2</b> <code>shinyMixR</code>: project management tool</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="userguide.html"><a href="userguide.html"><i class="fa fa-check"></i><b>3</b> User guide</a><ul>
-<li class="chapter" data-level="3.1" data-path="userguide.html"><a href="userguide.html#posters-presentations-and-publications"><i class="fa fa-check"></i><b>3.1</b> Posters, Presentations and Publications</a></li>
+<li class="chapter" data-level="3" data-path="materials.html"><a href="materials.html"><i class="fa fa-check"></i><b>3</b> Materials</a><ul>
+<li class="chapter" data-level="3.1" data-path="materials.html"><a href="materials.html#users-guide"><i class="fa fa-check"></i><b>3.1</b> User’s Guide</a></li>
+<li class="chapter" data-level="3.2" data-path="materials.html"><a href="materials.html#posters-and-presentations"><i class="fa fa-check"></i><b>3.2</b> Posters and Presentations</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="casestudies.html"><a href="casestudies.html"><i class="fa fa-check"></i><b>4</b> Case Studies</a><ul>
 <li class="chapter" data-level="4.1" data-path="casestudies.html"><a href="casestudies.html#saemix-1"><i class="fa fa-check"></i><b>4.1</b> <code>saemix</code></a><ul>
@@ -147,185 +148,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="intro" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>You can label chapter and section titles using <code>{#label}</code> after them, e.g., we can reference Chapter <a href="intro.html#intro">1</a>. If you do not manually label them, there will be automatic labels anyway, e.g., Chapter <a href="#methods"><strong>??</strong></a>.</p>
-<p>Figures and tables with captions will be placed in <code>figure</code> and <code>table</code> environments, respectively.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, .<span class="dv">1</span>, .<span class="dv">1</span>))
-<span class="kw">plot</span>(pressure, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">pch =</span> <span class="dv">19</span>)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:nice-fig"></span>
-<img src="Saemix-R-Package-Guide_files/figure-html/nice-fig-1.png" alt="Here is a nice figure!" width="80%" />
-<p class="caption">
-Figure 1.1: Here is a nice figure!
-</p>
-</div>
-<p>Reference a figure by its code chunk label with the <code>fig:</code> prefix, e.g., see Figure <a href="intro.html#fig:nice-fig">1.1</a>. Similarly, you can reference tables generated from <code>knitr::kable()</code>, e.g., see Table <a href="intro.html#tab:nice-tab">1.1</a>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr::<span class="kw">kable</span>(
-  <span class="kw">head</span>(iris, <span class="dv">20</span>), <span class="dt">caption =</span> <span class="st">&#39;Here is a nice table!&#39;</span>,
-  <span class="dt">booktabs =</span> <span class="ot">TRUE</span>
-)</code></pre></div>
-<table>
-<caption><span id="tab:nice-tab">Table 1.1: </span>Here is a nice table!</caption>
-<thead>
-<tr class="header">
-<th align="right">Sepal.Length</th>
-<th align="right">Sepal.Width</th>
-<th align="right">Petal.Length</th>
-<th align="right">Petal.Width</th>
-<th align="left">Species</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">5.1</td>
-<td align="right">3.5</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">4.9</td>
-<td align="right">3.0</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">4.7</td>
-<td align="right">3.2</td>
-<td align="right">1.3</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">4.6</td>
-<td align="right">3.1</td>
-<td align="right">1.5</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">5.0</td>
-<td align="right">3.6</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">5.4</td>
-<td align="right">3.9</td>
-<td align="right">1.7</td>
-<td align="right">0.4</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">4.6</td>
-<td align="right">3.4</td>
-<td align="right">1.4</td>
-<td align="right">0.3</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">5.0</td>
-<td align="right">3.4</td>
-<td align="right">1.5</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">4.4</td>
-<td align="right">2.9</td>
-<td align="right">1.4</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">4.9</td>
-<td align="right">3.1</td>
-<td align="right">1.5</td>
-<td align="right">0.1</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">5.4</td>
-<td align="right">3.7</td>
-<td align="right">1.5</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">4.8</td>
-<td align="right">3.4</td>
-<td align="right">1.6</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">4.8</td>
-<td align="right">3.0</td>
-<td align="right">1.4</td>
-<td align="right">0.1</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">4.3</td>
-<td align="right">3.0</td>
-<td align="right">1.1</td>
-<td align="right">0.1</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">5.8</td>
-<td align="right">4.0</td>
-<td align="right">1.2</td>
-<td align="right">0.2</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">5.7</td>
-<td align="right">4.4</td>
-<td align="right">1.5</td>
-<td align="right">0.4</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">5.4</td>
-<td align="right">3.9</td>
-<td align="right">1.3</td>
-<td align="right">0.4</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">5.1</td>
-<td align="right">3.5</td>
-<td align="right">1.4</td>
-<td align="right">0.3</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="odd">
-<td align="right">5.7</td>
-<td align="right">3.8</td>
-<td align="right">1.7</td>
-<td align="right">0.3</td>
-<td align="left">setosa</td>
-</tr>
-<tr class="even">
-<td align="right">5.1</td>
-<td align="right">3.8</td>
-<td align="right">1.5</td>
-<td align="right">0.3</td>
-<td align="left">setosa</td>
-</tr>
-</tbody>
-</table>
-<p>You can write citations, too. For example, we are using the <strong>bookdown</strong> package <span class="citation">(Xie <a href="#ref-R-bookdown">2020</a>)</span> in this sample book, which was built on top of R Markdown and <strong>knitr</strong> <span class="citation">(Xie <a href="#ref-xie2015">2015</a>)</span>.</p>
+<p>The <code>saemix</code> package for R provides maximum likelihood estimates of parameters in nonlinear mixed effect models (NLMEM), using a modern and efficient estimation algorithm, the Stochastic Approximation of the Expectation-Maximisation (SAEM).</p>
+<p>Longitudinal data arise in many fields, such as agronomy, spatial analysis, imagery, clinical trials, and have been particularly prominent in the field of pharmacokinetics (PK) and pharmacodynamics (PD), where increasingly complex models involving mechanistic and empirical processes have been developed to describe the time course of and responses to drugs. Nonlinear models pose unique challenges in terms of estimation methods, and have driven the research to provide better estimation of parameters as well as the associated uncertainty, diagnostics of model misspecification and more informative designs. The SAEM algorithm, based on two highly cited publications by one of our project members Marc Lavielle, see <span class="citation">(Delyon, Lavielle, and Moulines <a href="#ref-lavielle">1999</a>)</span> and <span class="citation">(Kuhn and Lavielle <a href="#ref-kuhn">2004</a>)</span>, was implemented in R in 2011 in the <code>saemix</code> R package~<span class="citation">(Comets, Lavenu, and Lavielle <a href="#ref-saemix2017">2017</a>)</span>. Several applications of SAEM in agronomy, animal breeding and PKPD analysis have been published using <code>saemix</code>.</p>
+<p>PK/PD analyses are now a fundamental element of the registration file submitted to health authority for the approval of new drugs, but NLMEM are also increasingly applied to other areas. In clinical trials, they complement the point analyses by offering a unique understanding of the evolution of disease or treatment action. In cohort studies, they allow to model trajectories such as growth or cognitive decline. Joint models are now routinely used to link the evolution of markers with the occurrence of an event. Making use of S4 classes and methods to provide user-friendly interaction, <code>saemix</code> provides a new estimation tool with a powerful exact algorithm to the R community. The <code>saemix</code> package for R provides maximum likelihood estimates of parameters in nonlinear mixed effect (NLME) models, using a modern and efficient estimation algorithm, the Stochastic Approximation of the Expectation-Maximisation (SAEM) algorithm based on two highly cited publication by one of our project member Marc Lavielle, see <span class="citation">(Delyon, Lavielle, and Moulines <a href="#ref-lavielle">1999</a>)</span> and <span class="citation">(Kuhn and Lavielle <a href="#ref-kuhn">2004</a>)</span>. Making use of S4 classes and methods to provide user-friendly interaction, this package provides a new estimation tool to the R community.</p>
 
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
-<div id="ref-xie2015">
-<p>Xie, Yihui. 2015. <em>Dynamic Documents with R and Knitr</em>. 2nd ed. Boca Raton, Florida: Chapman; Hall/CRC. <a href="http://yihui.name/knitr/" class="uri">http://yihui.name/knitr/</a>.</p>
+<div id="ref-saemix2017">
+<p>Comets, Emmanuelle, Audrey Lavenu, and Marc Lavielle. 2017. “Parameter Estimation in Nonlinear Mixed Effect Models Using Saemix, an R Implementation of the Saem Algorithm.” <em>Journal of Statistical Software, Articles</em> 80 (3): 1–41. doi:<a href="https://doi.org/10.18637/jss.v080.i03">10.18637/jss.v080.i03</a>.</p>
 </div>
-<div id="ref-R-bookdown">
-<p>Xie, Yihui. 2020. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. <a href="https://CRAN.R-project.org/package=bookdown" class="uri">https://CRAN.R-project.org/package=bookdown</a>.</p>
+<div id="ref-lavielle">
+<p>Delyon, Bernard, Marc Lavielle, and Eric Moulines. 1999. “Convergence of a stochastic approximation version of the EM algorithm.” <em>Ann. Statist.</em> 27 (1). The Institute of Mathematical Statistics: 94–128. doi:<a href="https://doi.org/10.1214/aos/1018031103">10.1214/aos/1018031103</a>.</p>
+</div>
+<div id="ref-kuhn">
+<p>Kuhn, Estelle, and Marc Lavielle. 2004. “Coupling a stochastic approximation version of EM with an MCMC procedure.” <em>ESAIM: Probability and Statistics</em> 8. EDP-Sciences: 115–31. <a href="http://eudml.org/doc/245020" class="uri">http://eudml.org/doc/245020</a>.</p>
 </div>
 </div>
             </section>

@@ -114,7 +114,7 @@
 
 \title{\texttt{Saemix}: Open Source R package for mixed effects modeling}
 \author{Marc Lavielle, Emmanuelle Comets, Audrey Lavenu and Belhal Karimi}
-\date{2020-01-28}
+\date{2020-01-31}
 
 \begin{document}
 \maketitle
@@ -235,7 +235,7 @@ Various other publications can be found
 Some basic Case Studies are demonstrated in this chapter; the vignettes
 will be discussing the application in more depth.
 
-\section{\texorpdfstring{\texttt{saemix}}{saemix}}\label{saemix-1}
+\section{A two-compartment PK model}\label{a-two-compartment-pk-model}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -244,63 +244,267 @@ will be discussing the application in more depth.
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{Rationale}\label{rationale}
-
-\texttt{saemix} estimation routines have their own way of specifying
-models.
-
-\textbf{Initial Values}
-
-\texttt{saemix} models are contained in a R function with two blocks:
+\textbf{Read the Data}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{Some R Code}
+\NormalTok{warfa_data <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"data/warfarin_data.txt"}\NormalTok{, }\DataTypeTok{header=}\NormalTok{T)}
+\NormalTok{saemix.data<-}\KeywordTok{saemixData}\NormalTok{(}\DataTypeTok{name.data=}\NormalTok{warfa_data,}\DataTypeTok{header=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{sep=}\StringTok{" "}\NormalTok{,}
+  \DataTypeTok{na=}\OtherTok{NA}\NormalTok{, }\DataTypeTok{name.group=}\KeywordTok{c}\NormalTok{(}\StringTok{"id"}\NormalTok{),}\DataTypeTok{name.predictors=}\KeywordTok{c}\NormalTok{(}\StringTok{"amount"}\NormalTok{,}\StringTok{"time"}\NormalTok{),}
+  \DataTypeTok{name.response=}\KeywordTok{c}\NormalTok{(}\StringTok{"y1"}\NormalTok{), }\DataTypeTok{name.X=}\StringTok{"time"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{Some examples}\label{some-examples}
+\textbf{Create the Model}
 
-\subsubsection{A two-compartment PK
-model}\label{a-two-compartment-pk-model}
-
-The model:
+\texttt{saemix} models are contained in a R function with one blocks:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{theomodel <-}\StringTok{ }\NormalTok{function() \{}
-  \KeywordTok{ini}\NormalTok{(\{}
-    \NormalTok{tka <-}\StringTok{ }\KeywordTok{log}\NormalTok{(}\FloatTok{1.14}\NormalTok{)}
-    \NormalTok{tcl <-}\StringTok{ }\KeywordTok{log}\NormalTok{(}\FloatTok{0.0190}\NormalTok{)}
-    \NormalTok{tv2  <-}\StringTok{ }\KeywordTok{log}\NormalTok{(}\FloatTok{2.12}\NormalTok{)}
-    \NormalTok{tv3  <-}\StringTok{ }\KeywordTok{log}\NormalTok{(}\FloatTok{20.4}\NormalTok{)}
-    \NormalTok{tq   <-}\StringTok{ }\KeywordTok{log}\NormalTok{(}\FloatTok{0.383}\NormalTok{)}
-    \NormalTok{wteff  <-}\StringTok{ }\FloatTok{0.35}
-    \NormalTok{sexeff <-}\StringTok{ }\NormalTok{-}\FloatTok{0.2}
-    \NormalTok{eta.ka ~}\StringTok{ }\DecValTok{1}
-    \NormalTok{eta.cl ~}\StringTok{ }\DecValTok{1}
-    \NormalTok{eta.v2 ~}\StringTok{ }\DecValTok{1}
-    \NormalTok{eta.v3 ~}\StringTok{ }\DecValTok{1}
-    \NormalTok{eta.q ~}\StringTok{ }\DecValTok{1}
-    \NormalTok{prop.err <-}\StringTok{ }\FloatTok{0.075}
-  \NormalTok{\})}
-  \KeywordTok{model}\NormalTok{(\{}
-    \NormalTok{ka <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(tka +}\StringTok{ }\NormalTok{eta.ka)}
-    \NormalTok{cl <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(tcl +}\StringTok{ }\NormalTok{wteff*lWT +}\StringTok{ }\NormalTok{eta.cl)}
-    \NormalTok{v2 <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(tv2 +}\StringTok{ }\NormalTok{sexeff*SEX +}\StringTok{ }\NormalTok{eta.v2)}
-    \NormalTok{v3 <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(tv3 +}\StringTok{ }\NormalTok{eta.v3)}
-    \NormalTok{q  <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(tq +}\StringTok{ }\NormalTok{eta.q)}
-    \NormalTok{d/}\KeywordTok{dt}\NormalTok{(depot) =}\StringTok{ }\NormalTok{-ka *}\StringTok{ }\NormalTok{depot}
-    \NormalTok{d/}\KeywordTok{dt}\NormalTok{(center) =}\StringTok{ }\NormalTok{ka *}\StringTok{ }\NormalTok{depot -}\StringTok{ }\NormalTok{cl /}\StringTok{ }\NormalTok{v2 *}\StringTok{ }\NormalTok{center +}\StringTok{ }\NormalTok{q/v3 *}\StringTok{ }\NormalTok{periph -}\StringTok{ }\NormalTok{q/v2 *}\StringTok{ }\NormalTok{center}
-    \NormalTok{d/}\KeywordTok{dt}\NormalTok{(periph) =}\StringTok{ }\NormalTok{q/v2 *}\StringTok{ }\NormalTok{center -}\StringTok{ }\NormalTok{q/v3 *}\StringTok{ }\NormalTok{periph}
-    \NormalTok{cp =}\StringTok{ }\NormalTok{center /}\StringTok{ }\NormalTok{v2}
-    \NormalTok{cp ~}\StringTok{ }\KeywordTok{prop}\NormalTok{(prop.err)}
-  \NormalTok{\})}
+\NormalTok{model1cpt<-function(psi,id,xidep) \{}
+  \NormalTok{dose<-xidep[,}\DecValTok{1}\NormalTok{]}
+  \NormalTok{tim<-xidep[,}\DecValTok{2}\NormalTok{]}
+  \NormalTok{ka<-psi[id,}\DecValTok{1}\NormalTok{]}
+  \NormalTok{V<-psi[id,}\DecValTok{2}\NormalTok{]}
+  \NormalTok{k<-psi[id,}\DecValTok{3}\NormalTok{]}
+  \NormalTok{CL<-k*V}
+  \NormalTok{ypred<-dose*ka/(V*(ka-k))*(}\KeywordTok{exp}\NormalTok{(-k*tim)-}\KeywordTok{exp}\NormalTok{(-ka*tim))}
+  \KeywordTok{return}\NormalTok{(ypred)}
 \NormalTok{\}}
 
-\NormalTok{fit <-}\StringTok{ }\KeywordTok{saemix}\NormalTok{()}
+\NormalTok{saemix.model<-}\KeywordTok{saemixModel}\NormalTok{(}\DataTypeTok{model=}\NormalTok{model1cpt,}\DataTypeTok{description=}\StringTok{"warfarin"}\NormalTok{,}
+  \DataTypeTok{type=}\StringTok{"structural"}\NormalTok{,}\DataTypeTok{psi0=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{3}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{,}
+  \DataTypeTok{dimnames=}\KeywordTok{list}\NormalTok{(}\OtherTok{NULL}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{"ka"}\NormalTok{,}\StringTok{"V"}\NormalTok{,}\StringTok{"k"}\NormalTok{))),}\DataTypeTok{transform.par=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+  \DataTypeTok{omega.init=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{3}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{),}
+  \DataTypeTok{covariance.model=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{3}\NormalTok{,}
+  \DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
+
+\textbf{Run the SAEM algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{K1 =}\StringTok{ }\DecValTok{200}
+\NormalTok{K2 =}\StringTok{ }\DecValTok{100}
+
+
+\CommentTok{#Run SAEM}
+\NormalTok{options<-}\KeywordTok{list}\NormalTok{(}\DataTypeTok{seed=}\DecValTok{39546}\NormalTok{,}\DataTypeTok{map=}\NormalTok{F,}\DataTypeTok{fim=}\NormalTok{F,}\DataTypeTok{ll.is=}\NormalTok{F,}
+  \DataTypeTok{nbiter.mcmc =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{), }\DataTypeTok{nbiter.saemix =} \KeywordTok{c}\NormalTok{(K1,K2),}\DataTypeTok{nbiter.sa=}\DecValTok{0}\NormalTok{,}
+  \DataTypeTok{displayProgress=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{save.graphs=}\OtherTok{FALSE}\NormalTok{,}\DataTypeTok{nbiter.burn =}\DecValTok{0}\NormalTok{)}
+\NormalTok{fit<-}\KeywordTok{saemix}\NormalTok{(saemix.model,saemix.data,options)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{figures/resultcase1} 
+
+}
+
+\end{figure}
+
+\section{A categorical data model with regression
+variables}\label{a-categorical-data-model-with-regression-variables}
+
+\subsection{mlxR: simulate synthetic
+data}\label{mlxr-simulate-synthetic-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{"mlxR"}\NormalTok{)}
+\NormalTok{catModel <-}\StringTok{ }\KeywordTok{inlineModel}\NormalTok{(}
+\StringTok{"[LONGITUDINAL]}
+\StringTok{input =  \{beta0,gamma0,delta0, dose\}}
+\StringTok{dose = \{use=regressor\}}
+\StringTok{EQUATION:}
+\StringTok{lm0 = beta0+gamma0*t + delta0*dose}
+\StringTok{D = exp(lm0)+1}
+\StringTok{p0 = exp(lm0)/D}
+\StringTok{p1 = 1/D}
+
+\StringTok{DEFINITION:}
+\StringTok{y = \{type=categorical, categories=\{0, 1\}, }
+\StringTok{     P(y=0)=p0,}
+\StringTok{     P(y=1)=p1\}}
+\StringTok{[INDIVIDUAL]}
+\StringTok{input=\{beta0_pop, o_beta0,}
+\StringTok{      gamma0_pop, o_gamma0,}
+\StringTok{      delta0_pop, o_delta0\}}
+\StringTok{DEFINITION:}
+\StringTok{beta0  =\{distribution=normal, prediction=beta0_pop,  sd=o_beta0\}}
+\StringTok{gamma0  =\{distribution=normal, prediction=gamma0_pop,  sd=o_gamma0\}}
+\StringTok{delta0  =\{distribution=normal, prediction=delta0_pop,  sd=o_delta0\} "}\NormalTok{)}
+
+\NormalTok{nobs =}\StringTok{ }\DecValTok{15}
+\NormalTok{tobs<-}\StringTok{ }\KeywordTok{seq}\NormalTok{(-}\DecValTok{20}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DataTypeTok{by=}\NormalTok{nobs)}
+\NormalTok{reg1 <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{name=}\StringTok{'dose'}\NormalTok{,}
+            \DataTypeTok{time=}\NormalTok{tobs,}
+            \DataTypeTok{value=}\DecValTok{10}\NormalTok{*(tobs>}\DecValTok{0}\NormalTok{))}
+
+\NormalTok{reg2 <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{name=}\StringTok{'dose'}\NormalTok{,}
+            \DataTypeTok{time=}\NormalTok{tobs,}
+            \DataTypeTok{value=}\DecValTok{20}\NormalTok{*(tobs>}\DecValTok{0}\NormalTok{))}
+
+\NormalTok{reg3 <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{name=}\StringTok{'dose'}\NormalTok{,}
+            \DataTypeTok{time=}\NormalTok{tobs,}
+            \DataTypeTok{value=}\DecValTok{30}\NormalTok{*(tobs>}\DecValTok{0}\NormalTok{))}
+
+\NormalTok{out  <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{name=}\StringTok{'y'}\NormalTok{, }\DataTypeTok{time=}\NormalTok{tobs)}
+\NormalTok{N  <-}\StringTok{ }\DecValTok{100}
+\NormalTok{p <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DataTypeTok{beta0_pop=}\NormalTok{-}\DecValTok{4}\NormalTok{, }\DataTypeTok{o_beta0=}\FloatTok{0.3}\NormalTok{, }
+       \DataTypeTok{gamma0_pop=} \NormalTok{-}\FloatTok{0.5}\NormalTok{, }\DataTypeTok{o_gamma0=}\FloatTok{0.2}\NormalTok{,}
+       \DataTypeTok{delta0_pop=}\DecValTok{1}\NormalTok{, }\DataTypeTok{o_delta0=}\FloatTok{0.2}\NormalTok{)}
+
+\NormalTok{g1 <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{size=}\NormalTok{N,}\DataTypeTok{regressor =} \NormalTok{reg1)}
+\NormalTok{g2 <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{size=}\NormalTok{N,}\DataTypeTok{regressor =} \NormalTok{reg2)}
+\NormalTok{g3 <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{size=}\NormalTok{N,}\DataTypeTok{regressor =} \NormalTok{reg3)}
+\NormalTok{g <-}\StringTok{ }\KeywordTok{list}\NormalTok{(g1,g2,g3)}
+\NormalTok{res <-}\StringTok{ }\KeywordTok{simulx}\NormalTok{(}\DataTypeTok{model=}\NormalTok{catModel,}\DataTypeTok{output=}\NormalTok{out, }\DataTypeTok{group=}\NormalTok{g,}\DataTypeTok{parameter=}\NormalTok{p)}
+\NormalTok{plot1 <-}\StringTok{ }\KeywordTok{catplotmlx}\NormalTok{(res$y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{figures/prob_cat} 
+
+}
+
+\end{figure}
+
+\subsection{saemix: fit the noncontinuous data
+model}\label{saemix-fit-the-noncontinuous-data-model}
+
+\textbf{Create the saemix.data object}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{saemix.data<-}\KeywordTok{saemixData}\NormalTok{(}\DataTypeTok{name.data=}\NormalTok{res,}\DataTypeTok{header=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{sep=}\StringTok{" "}\NormalTok{,}
+  \DataTypeTok{na=}\OtherTok{NA}\NormalTok{, }\DataTypeTok{name.group=}\KeywordTok{c}\NormalTok{(}\StringTok{"id"}\NormalTok{),}\DataTypeTok{name.predictors=}\KeywordTok{c}\NormalTok{(}\StringTok{"amount"}\NormalTok{,}\StringTok{"time"}\NormalTok{),}
+  \DataTypeTok{name.response=}\KeywordTok{c}\NormalTok{(}\StringTok{"y1"}\NormalTok{), }\DataTypeTok{name.X=}\StringTok{"time"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Create the model}
+
+\texttt{saemix} models are contained in a R function with one blocks:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cat.model<-function(psi,id,xidep) \{}
+\NormalTok{level<-xidep[,}\DecValTok{1}\NormalTok{]}
+\NormalTok{dose<-xidep[,}\DecValTok{2}\NormalTok{]}
+\NormalTok{time<-xidep[,}\DecValTok{3}\NormalTok{]}
+\NormalTok{th1 <-}\StringTok{ }\NormalTok{psi[id,}\DecValTok{1}\NormalTok{]}
+\NormalTok{th2 <-}\StringTok{ }\NormalTok{psi[id,}\DecValTok{2}\NormalTok{]}
+\NormalTok{delta0 <-}\StringTok{ }\NormalTok{psi[id,}\DecValTok{3}\NormalTok{]}
+\NormalTok{lm0 <-}\StringTok{ }\NormalTok{th1+th2*time +}\StringTok{ }\NormalTok{delta0*dose}
+\NormalTok{D <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(lm0)+}\DecValTok{1}
+\NormalTok{P0 <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(lm0)/D}
+\NormalTok{P1 <-}\StringTok{ }\DecValTok{1}\NormalTok{/D}
+
+\NormalTok{P.obs =}\StringTok{ }\NormalTok{(level==}\DecValTok{0}\NormalTok{)*P0+(level==}\DecValTok{1}\NormalTok{)*P1}
+\KeywordTok{return}\NormalTok{(P.obs) \}}
+
+\NormalTok{saemix.model<-}\KeywordTok{saemixModel}\NormalTok{(}\DataTypeTok{model=}\NormalTok{cat.model,}\DataTypeTok{description=}\StringTok{"cat model"}\NormalTok{,}
+  \DataTypeTok{type=}\StringTok{"likelihood"}\NormalTok{, }\DataTypeTok{psi0=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{3}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{,}
+  \DataTypeTok{dimnames=}\KeywordTok{list}\NormalTok{(}\OtherTok{NULL}\NormalTok{,}\KeywordTok{c}\NormalTok{(}\StringTok{"th1"}\NormalTok{,}\StringTok{"th2"}\NormalTok{,}\StringTok{"th3"}\NormalTok{))),}\DataTypeTok{transform.par=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+  \DataTypeTok{covariance.model=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{3}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{),}
+  \DataTypeTok{omega.init=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{3}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{),}
+  \DataTypeTok{error.model=}\StringTok{"constant"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Run the SAEM algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{K1 =}\StringTok{ }\DecValTok{500}
+\NormalTok{K2 =}\StringTok{ }\DecValTok{100}
+
+\NormalTok{options<-}\KeywordTok{list}\NormalTok{(}\DataTypeTok{seed=}\DecValTok{39546}\NormalTok{,}\DataTypeTok{map=}\NormalTok{F,}\DataTypeTok{fim=}\NormalTok{F,}\DataTypeTok{ll.is=}\NormalTok{F,}
+  \DataTypeTok{nbiter.mcmc =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{), }\DataTypeTok{nbiter.saemix =} \KeywordTok{c}\NormalTok{(K1,K2),}\DataTypeTok{nbiter.sa=}\DecValTok{0}\NormalTok{,}
+  \DataTypeTok{displayProgress=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{save.graphs=}\OtherTok{FALSE}\NormalTok{,}\DataTypeTok{nbiter.burn =}\DecValTok{0}\NormalTok{)}
+\NormalTok{saemix.fit<-}\KeywordTok{saemix}\NormalTok{(saemix.model,saemix.data,options)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{figures/param_cat} 
+
+}
+
+\end{figure}
+
+\section{A repeated time-to-event data
+model}\label{a-repeated-time-to-event-data-model}
+
+\textbf{Read the Data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data}\NormalTok{(tte.saemix)}
+\NormalTok{saemix.data<-}\KeywordTok{saemixData}\NormalTok{(}\DataTypeTok{name.data=}\NormalTok{tte.saemix,}\DataTypeTok{header=}\OtherTok{TRUE}\NormalTok{,}
+  \DataTypeTok{sep=}\StringTok{" "}\NormalTok{,}\DataTypeTok{na=}\OtherTok{NA}\NormalTok{, }\DataTypeTok{name.group=}\KeywordTok{c}\NormalTok{(}\StringTok{"id"}\NormalTok{),}
+  \DataTypeTok{name.response=}\KeywordTok{c}\NormalTok{(}\StringTok{"y"}\NormalTok{),}\DataTypeTok{name.predictors=}\KeywordTok{c}\NormalTok{(}\StringTok{"time"}\NormalTok{,}\StringTok{"y"}\NormalTok{),}
+  \DataTypeTok{name.X=}\KeywordTok{c}\NormalTok{(}\StringTok{"time"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Create the Model}
+
+\texttt{saemix} models are contained in a R function with one blocks:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{timetoevent.model<-function(psi,id,xidep) \{}
+    \NormalTok{T<-xidep[,}\DecValTok{1}\NormalTok{]}
+    \NormalTok{N <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(psi)}
+    \NormalTok{Nj <-}\StringTok{ }\KeywordTok{length}\NormalTok{(T)}
+    \NormalTok{censoringtime =}\StringTok{ }\DecValTok{20}
+    \NormalTok{lambda <-}\StringTok{ }\NormalTok{psi[id,}\DecValTok{1}\NormalTok{]}
+    \NormalTok{beta <-}\StringTok{ }\NormalTok{psi[id,}\DecValTok{2}\NormalTok{]}
+    \NormalTok{init <-}\StringTok{ }\KeywordTok{which}\NormalTok{(T==}\StringTok{ }\DecValTok{0}\NormalTok{)}
+    \NormalTok{cens <-}\StringTok{ }\KeywordTok{which}\NormalTok{(T==}\StringTok{ }\NormalTok{censoringtime)}
+    \NormalTok{ind <-}\StringTok{ }\KeywordTok{setdiff}\NormalTok{(}\DecValTok{1}\NormalTok{:Nj, }\KeywordTok{append}\NormalTok{(init,cens))}
+    \NormalTok{hazard <-}\StringTok{ }\NormalTok{(beta/lambda)*(T/lambda)^(beta}\DecValTok{-1}\NormalTok{)}
+    \NormalTok{H <-}\StringTok{ }\NormalTok{(T/lambda)^beta}
+    \NormalTok{logpdf <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{,Nj)}
+    \NormalTok{logpdf[cens] <-}\StringTok{ }\NormalTok{-H[cens] +}\StringTok{ }\NormalTok{H[cens}\DecValTok{-1}\NormalTok{]}
+    \NormalTok{logpdf[ind] <-}\StringTok{ }\NormalTok{-H[ind] +}\StringTok{ }\NormalTok{H[ind}\DecValTok{-1}\NormalTok{] +}\StringTok{ }\KeywordTok{log}\NormalTok{(hazard[ind])}
+    \KeywordTok{return}\NormalTok{(logpdf) \}}
+
+
+\NormalTok{saemix.model<-}\KeywordTok{saemixModel}\NormalTok{(}\DataTypeTok{model=}\NormalTok{timetoevent.model,}\DataTypeTok{description=}\StringTok{"time model"}\NormalTok{,}
+  \DataTypeTok{type=}\StringTok{"likelihood"}\NormalTok{, }\DataTypeTok{psi0=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{2}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{,}
+  \DataTypeTok{dimnames=}\KeywordTok{list}\NormalTok{(}\OtherTok{NULL}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\StringTok{"lambda"}\NormalTok{,}\StringTok{"beta"}\NormalTok{))), }\DataTypeTok{transform.par=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+  \DataTypeTok{covariance.model=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{2}\NormalTok{, }\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Run the SAEM algorithm}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{K1 =}\StringTok{ }\DecValTok{200}
+\NormalTok{K2 =}\StringTok{ }\DecValTok{100}
+
+\NormalTok{saemix.options<-}\KeywordTok{list}\NormalTok{(}\DataTypeTok{map=}\NormalTok{F,}\DataTypeTok{fim=}\NormalTok{F,}\DataTypeTok{ll.is=}\NormalTok{F, }\DataTypeTok{nb.chains =} \DecValTok{1}\NormalTok{, }
+  \DataTypeTok{nbiter.saemix =} \KeywordTok{c}\NormalTok{(K1,K2),}\DataTypeTok{displayProgress=}\OtherTok{TRUE}\NormalTok{,}\DataTypeTok{save.graphs=}\OtherTok{FALSE}\NormalTok{)}
+\NormalTok{saemix.fit<-}\KeywordTok{saemix}\NormalTok{(model,saemix.data,saemix.options)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{figures/popparam_tte} 
+
+}
+
+\end{figure}
 
 \chapter*{Contacts}\label{contacts}
 \addcontentsline{toc}{chapter}{Contacts}

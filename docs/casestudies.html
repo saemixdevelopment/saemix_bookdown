@@ -24,7 +24,7 @@
 <meta name="author" content="Marc Lavielle, Emmanuelle Comets, Audrey Lavenu and Belhal Karimi" />
 
 
-<meta name="date" content="2020-01-28" />
+<meta name="date" content="2020-01-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,10 +119,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.2" data-path="materials.html"><a href="materials.html#posters-and-presentations"><i class="fa fa-check"></i><b>3.2</b> Posters and Presentations</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="casestudies.html"><a href="casestudies.html"><i class="fa fa-check"></i><b>4</b> Case Studies</a><ul>
-<li class="chapter" data-level="4.1" data-path="casestudies.html"><a href="casestudies.html#saemix-1"><i class="fa fa-check"></i><b>4.1</b> <code>saemix</code></a><ul>
-<li class="chapter" data-level="4.1.1" data-path="casestudies.html"><a href="casestudies.html#rationale"><i class="fa fa-check"></i><b>4.1.1</b> Rationale</a></li>
-<li class="chapter" data-level="4.1.2" data-path="casestudies.html"><a href="casestudies.html#some-examples"><i class="fa fa-check"></i><b>4.1.2</b> Some examples</a></li>
+<li class="chapter" data-level="4.1" data-path="casestudies.html"><a href="casestudies.html#a-two-compartment-pk-model"><i class="fa fa-check"></i><b>4.1</b> A two-compartment PK model</a></li>
+<li class="chapter" data-level="4.2" data-path="casestudies.html"><a href="casestudies.html#a-categorical-data-model-with-regression-variables"><i class="fa fa-check"></i><b>4.2</b> A categorical data model with regression variables</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="casestudies.html"><a href="casestudies.html#mlxr-simulate-synthetic-data"><i class="fa fa-check"></i><b>4.2.1</b> mlxR: simulate synthetic data</a></li>
+<li class="chapter" data-level="4.2.2" data-path="casestudies.html"><a href="casestudies.html#saemix-fit-the-noncontinuous-data-model"><i class="fa fa-check"></i><b>4.2.2</b> saemix: fit the noncontinuous data model</a></li>
 </ul></li>
+<li class="chapter" data-level="4.3" data-path="casestudies.html"><a href="casestudies.html#a-repeated-time-to-event-data-model"><i class="fa fa-check"></i><b>4.3</b> A repeated time-to-event data model</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="contacts.html"><a href="contacts.html"><i class="fa fa-check"></i>Contacts</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -150,56 +152,183 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1><span class="header-section-number">Chapter 4</span> Case Studies</h1>
 <p>Some basic Case Studies are demonstrated in this chapter; the vignettes will be discussing the application in more depth.</p>
 <!-- saemix vignette -->
-<div id="saemix-1" class="section level2">
-<h2><span class="header-section-number">4.1</span> <code>saemix</code></h2>
+<div id="a-two-compartment-pk-model" class="section level2">
+<h2><span class="header-section-number">4.1</span> A two-compartment PK model</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(saemix)
 ?saemix</code></pre></div>
-<div id="rationale" class="section level3">
-<h3><span class="header-section-number">4.1.1</span> Rationale</h3>
-<p><code>saemix</code> estimation routines have their own way of specifying models.</p>
-<p><strong>Initial Values</strong></p>
-<p><code>saemix</code> models are contained in a R function with two blocks:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Some R Code</code></pre></div>
-</div>
-<div id="some-examples" class="section level3">
-<h3><span class="header-section-number">4.1.2</span> Some examples</h3>
-<div id="a-two-compartment-pk-model" class="section level4">
-<h4><span class="header-section-number">4.1.2.1</span> A two-compartment PK model</h4>
-<p>The model:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">theomodel &lt;-<span class="st"> </span>function() {
-  <span class="kw">ini</span>({
-    tka &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="fl">1.14</span>)
-    tcl &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="fl">0.0190</span>)
-    tv2  &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="fl">2.12</span>)
-    tv3  &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="fl">20.4</span>)
-    tq   &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="fl">0.383</span>)
-    wteff  &lt;-<span class="st"> </span><span class="fl">0.35</span>
-    sexeff &lt;-<span class="st"> </span>-<span class="fl">0.2</span>
-    eta.ka ~<span class="st"> </span><span class="dv">1</span>
-    eta.cl ~<span class="st"> </span><span class="dv">1</span>
-    eta.v2 ~<span class="st"> </span><span class="dv">1</span>
-    eta.v3 ~<span class="st"> </span><span class="dv">1</span>
-    eta.q ~<span class="st"> </span><span class="dv">1</span>
-    prop.err &lt;-<span class="st"> </span><span class="fl">0.075</span>
-  })
-  <span class="kw">model</span>({
-    ka &lt;-<span class="st"> </span><span class="kw">exp</span>(tka +<span class="st"> </span>eta.ka)
-    cl &lt;-<span class="st"> </span><span class="kw">exp</span>(tcl +<span class="st"> </span>wteff*lWT +<span class="st"> </span>eta.cl)
-    v2 &lt;-<span class="st"> </span><span class="kw">exp</span>(tv2 +<span class="st"> </span>sexeff*SEX +<span class="st"> </span>eta.v2)
-    v3 &lt;-<span class="st"> </span><span class="kw">exp</span>(tv3 +<span class="st"> </span>eta.v3)
-    q  &lt;-<span class="st"> </span><span class="kw">exp</span>(tq +<span class="st"> </span>eta.q)
-    d/<span class="kw">dt</span>(depot) =<span class="st"> </span>-ka *<span class="st"> </span>depot
-    d/<span class="kw">dt</span>(center) =<span class="st"> </span>ka *<span class="st"> </span>depot -<span class="st"> </span>cl /<span class="st"> </span>v2 *<span class="st"> </span>center +<span class="st"> </span>q/v3 *<span class="st"> </span>periph -<span class="st"> </span>q/v2 *<span class="st"> </span>center
-    d/<span class="kw">dt</span>(periph) =<span class="st"> </span>q/v2 *<span class="st"> </span>center -<span class="st"> </span>q/v3 *<span class="st"> </span>periph
-    cp =<span class="st"> </span>center /<span class="st"> </span>v2
-    cp ~<span class="st"> </span><span class="kw">prop</span>(prop.err)
-  })
+<p><strong>Read the Data</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">warfa_data &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;data/warfarin_data.txt&quot;</span>, <span class="dt">header=</span>T)
+saemix.data&lt;-<span class="kw">saemixData</span>(<span class="dt">name.data=</span>warfa_data,<span class="dt">header=</span><span class="ot">TRUE</span>,<span class="dt">sep=</span><span class="st">&quot; &quot;</span>,
+  <span class="dt">na=</span><span class="ot">NA</span>, <span class="dt">name.group=</span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>),<span class="dt">name.predictors=</span><span class="kw">c</span>(<span class="st">&quot;amount&quot;</span>,<span class="st">&quot;time&quot;</span>),
+  <span class="dt">name.response=</span><span class="kw">c</span>(<span class="st">&quot;y1&quot;</span>), <span class="dt">name.X=</span><span class="st">&quot;time&quot;</span>)</code></pre></div>
+<p><strong>Create the Model</strong></p>
+<p><code>saemix</code> models are contained in a R function with one blocks:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model1cpt&lt;-function(psi,id,xidep) {
+  dose&lt;-xidep[,<span class="dv">1</span>]
+  tim&lt;-xidep[,<span class="dv">2</span>]
+  ka&lt;-psi[id,<span class="dv">1</span>]
+  V&lt;-psi[id,<span class="dv">2</span>]
+  k&lt;-psi[id,<span class="dv">3</span>]
+  CL&lt;-k*V
+  ypred&lt;-dose*ka/(V*(ka-k))*(<span class="kw">exp</span>(-k*tim)-<span class="kw">exp</span>(-ka*tim))
+  <span class="kw">return</span>(ypred)
 }
 
-fit &lt;-<span class="st"> </span><span class="kw">saemix</span>()</code></pre></div>
+saemix.model&lt;-<span class="kw">saemixModel</span>(<span class="dt">model=</span>model1cpt,<span class="dt">description=</span><span class="st">&quot;warfarin&quot;</span>,
+  <span class="dt">type=</span><span class="st">&quot;structural&quot;</span>,<span class="dt">psi0=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">7</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>,
+  <span class="dt">dimnames=</span><span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;ka&quot;</span>,<span class="st">&quot;V&quot;</span>,<span class="st">&quot;k&quot;</span>))),<span class="dt">transform.par=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),
+  <span class="dt">omega.init=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>),
+  <span class="dt">covariance.model=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">3</span>,
+  <span class="dt">byrow=</span><span class="ot">TRUE</span>))</code></pre></div>
+<p><strong>Run the SAEM algorithm</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">K1 =<span class="st"> </span><span class="dv">200</span>
+K2 =<span class="st"> </span><span class="dv">100</span>
 
+
+<span class="co">#Run SAEM</span>
+options&lt;-<span class="kw">list</span>(<span class="dt">seed=</span><span class="dv">39546</span>,<span class="dt">map=</span>F,<span class="dt">fim=</span>F,<span class="dt">ll.is=</span>F,
+  <span class="dt">nbiter.mcmc =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">nbiter.saemix =</span> <span class="kw">c</span>(K1,K2),<span class="dt">nbiter.sa=</span><span class="dv">0</span>,
+  <span class="dt">displayProgress=</span><span class="ot">TRUE</span>,<span class="dt">save.graphs=</span><span class="ot">FALSE</span>,<span class="dt">nbiter.burn =</span><span class="dv">0</span>)
+fit&lt;-<span class="kw">saemix</span>(saemix.model,saemix.data,options)</code></pre></div>
+<p><img src="figures/resultcase1.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="a-categorical-data-model-with-regression-variables" class="section level2">
+<h2><span class="header-section-number">4.2</span> A categorical data model with regression variables</h2>
+<div id="mlxr-simulate-synthetic-data" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> mlxR: simulate synthetic data</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;mlxR&quot;</span>)
+catModel &lt;-<span class="st"> </span><span class="kw">inlineModel</span>(
+<span class="st">&quot;[LONGITUDINAL]</span>
+<span class="st">input =  {beta0,gamma0,delta0, dose}</span>
+<span class="st">dose = {use=regressor}</span>
+<span class="st">EQUATION:</span>
+<span class="st">lm0 = beta0+gamma0*t + delta0*dose</span>
+<span class="st">D = exp(lm0)+1</span>
+<span class="st">p0 = exp(lm0)/D</span>
+<span class="st">p1 = 1/D</span>
+
+<span class="st">DEFINITION:</span>
+<span class="st">y = {type=categorical, categories={0, 1}, </span>
+<span class="st">     P(y=0)=p0,</span>
+<span class="st">     P(y=1)=p1}</span>
+<span class="st">[INDIVIDUAL]</span>
+<span class="st">input={beta0_pop, o_beta0,</span>
+<span class="st">      gamma0_pop, o_gamma0,</span>
+<span class="st">      delta0_pop, o_delta0}</span>
+<span class="st">DEFINITION:</span>
+<span class="st">beta0  ={distribution=normal, prediction=beta0_pop,  sd=o_beta0}</span>
+<span class="st">gamma0  ={distribution=normal, prediction=gamma0_pop,  sd=o_gamma0}</span>
+<span class="st">delta0  ={distribution=normal, prediction=delta0_pop,  sd=o_delta0} &quot;</span>)
+
+nobs =<span class="st"> </span><span class="dv">15</span>
+tobs&lt;-<span class="st"> </span><span class="kw">seq</span>(-<span class="dv">20</span>, <span class="dv">50</span>, <span class="dt">by=</span>nobs)
+reg1 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">name=</span><span class="st">&#39;dose&#39;</span>,
+            <span class="dt">time=</span>tobs,
+            <span class="dt">value=</span><span class="dv">10</span>*(tobs&gt;<span class="dv">0</span>))
+
+reg2 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">name=</span><span class="st">&#39;dose&#39;</span>,
+            <span class="dt">time=</span>tobs,
+            <span class="dt">value=</span><span class="dv">20</span>*(tobs&gt;<span class="dv">0</span>))
+
+reg3 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">name=</span><span class="st">&#39;dose&#39;</span>,
+            <span class="dt">time=</span>tobs,
+            <span class="dt">value=</span><span class="dv">30</span>*(tobs&gt;<span class="dv">0</span>))
+
+out  &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">name=</span><span class="st">&#39;y&#39;</span>, <span class="dt">time=</span>tobs)
+N  &lt;-<span class="st"> </span><span class="dv">100</span>
+p &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">beta0_pop=</span>-<span class="dv">4</span>, <span class="dt">o_beta0=</span><span class="fl">0.3</span>, 
+       <span class="dt">gamma0_pop=</span> -<span class="fl">0.5</span>, <span class="dt">o_gamma0=</span><span class="fl">0.2</span>,
+       <span class="dt">delta0_pop=</span><span class="dv">1</span>, <span class="dt">o_delta0=</span><span class="fl">0.2</span>)
+
+g1 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">size=</span>N,<span class="dt">regressor =</span> reg1)
+g2 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">size=</span>N,<span class="dt">regressor =</span> reg2)
+g3 &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">size=</span>N,<span class="dt">regressor =</span> reg3)
+g &lt;-<span class="st"> </span><span class="kw">list</span>(g1,g2,g3)
+res &lt;-<span class="st"> </span><span class="kw">simulx</span>(<span class="dt">model=</span>catModel,<span class="dt">output=</span>out, <span class="dt">group=</span>g,<span class="dt">parameter=</span>p)
+plot1 &lt;-<span class="st"> </span><span class="kw">catplotmlx</span>(res$y)</code></pre></div>
+<p><img src="figures/prob_cat.png" width="100%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="saemix-fit-the-noncontinuous-data-model" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> saemix: fit the noncontinuous data model</h3>
+<p><strong>Create the saemix.data object</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">saemix.data&lt;-<span class="kw">saemixData</span>(<span class="dt">name.data=</span>res,<span class="dt">header=</span><span class="ot">TRUE</span>,<span class="dt">sep=</span><span class="st">&quot; &quot;</span>,
+  <span class="dt">na=</span><span class="ot">NA</span>, <span class="dt">name.group=</span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>),<span class="dt">name.predictors=</span><span class="kw">c</span>(<span class="st">&quot;amount&quot;</span>,<span class="st">&quot;time&quot;</span>),
+  <span class="dt">name.response=</span><span class="kw">c</span>(<span class="st">&quot;y1&quot;</span>), <span class="dt">name.X=</span><span class="st">&quot;time&quot;</span>)</code></pre></div>
+<p><strong>Create the model</strong></p>
+<p><code>saemix</code> models are contained in a R function with one blocks:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cat.model&lt;-function(psi,id,xidep) {
+level&lt;-xidep[,<span class="dv">1</span>]
+dose&lt;-xidep[,<span class="dv">2</span>]
+time&lt;-xidep[,<span class="dv">3</span>]
+th1 &lt;-<span class="st"> </span>psi[id,<span class="dv">1</span>]
+th2 &lt;-<span class="st"> </span>psi[id,<span class="dv">2</span>]
+delta0 &lt;-<span class="st"> </span>psi[id,<span class="dv">3</span>]
+lm0 &lt;-<span class="st"> </span>th1+th2*time +<span class="st"> </span>delta0*dose
+D &lt;-<span class="st"> </span><span class="kw">exp</span>(lm0)+<span class="dv">1</span>
+P0 &lt;-<span class="st"> </span><span class="kw">exp</span>(lm0)/D
+P1 &lt;-<span class="st"> </span><span class="dv">1</span>/D
+
+P.obs =<span class="st"> </span>(level==<span class="dv">0</span>)*P0+(level==<span class="dv">1</span>)*P1
+<span class="kw">return</span>(P.obs) }
+
+saemix.model&lt;-<span class="kw">saemixModel</span>(<span class="dt">model=</span>cat.model,<span class="dt">description=</span><span class="st">&quot;cat model&quot;</span>,
+  <span class="dt">type=</span><span class="st">&quot;likelihood&quot;</span>, <span class="dt">psi0=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>),<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>,
+  <span class="dt">dimnames=</span><span class="kw">list</span>(<span class="ot">NULL</span>,<span class="kw">c</span>(<span class="st">&quot;th1&quot;</span>,<span class="st">&quot;th2&quot;</span>,<span class="st">&quot;th3&quot;</span>))),<span class="dt">transform.par=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),
+  <span class="dt">covariance.model=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>),
+  <span class="dt">omega.init=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>),
+  <span class="dt">error.model=</span><span class="st">&quot;constant&quot;</span>)</code></pre></div>
+<p><strong>Run the SAEM algorithm</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">K1 =<span class="st"> </span><span class="dv">500</span>
+K2 =<span class="st"> </span><span class="dv">100</span>
+
+options&lt;-<span class="kw">list</span>(<span class="dt">seed=</span><span class="dv">39546</span>,<span class="dt">map=</span>F,<span class="dt">fim=</span>F,<span class="dt">ll.is=</span>F,
+  <span class="dt">nbiter.mcmc =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">nbiter.saemix =</span> <span class="kw">c</span>(K1,K2),<span class="dt">nbiter.sa=</span><span class="dv">0</span>,
+  <span class="dt">displayProgress=</span><span class="ot">TRUE</span>,<span class="dt">save.graphs=</span><span class="ot">FALSE</span>,<span class="dt">nbiter.burn =</span><span class="dv">0</span>)
+saemix.fit&lt;-<span class="kw">saemix</span>(saemix.model,saemix.data,options)</code></pre></div>
+<p><img src="figures/param_cat.png" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
+<div id="a-repeated-time-to-event-data-model" class="section level2">
+<h2><span class="header-section-number">4.3</span> A repeated time-to-event data model</h2>
+<p><strong>Read the Data</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(tte.saemix)
+saemix.data&lt;-<span class="kw">saemixData</span>(<span class="dt">name.data=</span>tte.saemix,<span class="dt">header=</span><span class="ot">TRUE</span>,
+  <span class="dt">sep=</span><span class="st">&quot; &quot;</span>,<span class="dt">na=</span><span class="ot">NA</span>, <span class="dt">name.group=</span><span class="kw">c</span>(<span class="st">&quot;id&quot;</span>),
+  <span class="dt">name.response=</span><span class="kw">c</span>(<span class="st">&quot;y&quot;</span>),<span class="dt">name.predictors=</span><span class="kw">c</span>(<span class="st">&quot;time&quot;</span>,<span class="st">&quot;y&quot;</span>),
+  <span class="dt">name.X=</span><span class="kw">c</span>(<span class="st">&quot;time&quot;</span>))</code></pre></div>
+<p><strong>Create the Model</strong></p>
+<p><code>saemix</code> models are contained in a R function with one blocks:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">timetoevent.model&lt;-function(psi,id,xidep) {
+    T&lt;-xidep[,<span class="dv">1</span>]
+    N &lt;-<span class="st"> </span><span class="kw">nrow</span>(psi)
+    Nj &lt;-<span class="st"> </span><span class="kw">length</span>(T)
+    censoringtime =<span class="st"> </span><span class="dv">20</span>
+    lambda &lt;-<span class="st"> </span>psi[id,<span class="dv">1</span>]
+    beta &lt;-<span class="st"> </span>psi[id,<span class="dv">2</span>]
+    init &lt;-<span class="st"> </span><span class="kw">which</span>(T==<span class="st"> </span><span class="dv">0</span>)
+    cens &lt;-<span class="st"> </span><span class="kw">which</span>(T==<span class="st"> </span>censoringtime)
+    ind &lt;-<span class="st"> </span><span class="kw">setdiff</span>(<span class="dv">1</span>:Nj, <span class="kw">append</span>(init,cens))
+    hazard &lt;-<span class="st"> </span>(beta/lambda)*(T/lambda)^(beta<span class="dv">-1</span>)
+    H &lt;-<span class="st"> </span>(T/lambda)^beta
+    logpdf &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>,Nj)
+    logpdf[cens] &lt;-<span class="st"> </span>-H[cens] +<span class="st"> </span>H[cens<span class="dv">-1</span>]
+    logpdf[ind] &lt;-<span class="st"> </span>-H[ind] +<span class="st"> </span>H[ind<span class="dv">-1</span>] +<span class="st"> </span><span class="kw">log</span>(hazard[ind])
+    <span class="kw">return</span>(logpdf) }
+
+
+saemix.model&lt;-<span class="kw">saemixModel</span>(<span class="dt">model=</span>timetoevent.model,<span class="dt">description=</span><span class="st">&quot;time model&quot;</span>,
+  <span class="dt">type=</span><span class="st">&quot;likelihood&quot;</span>, <span class="dt">psi0=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">2</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>,
+  <span class="dt">dimnames=</span><span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;lambda&quot;</span>,<span class="st">&quot;beta&quot;</span>))), <span class="dt">transform.par=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),
+  <span class="dt">covariance.model=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">2</span>, <span class="dt">byrow=</span><span class="ot">TRUE</span>))</code></pre></div>
+<p><strong>Run the SAEM algorithm</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">K1 =<span class="st"> </span><span class="dv">200</span>
+K2 =<span class="st"> </span><span class="dv">100</span>
+
+saemix.options&lt;-<span class="kw">list</span>(<span class="dt">map=</span>F,<span class="dt">fim=</span>F,<span class="dt">ll.is=</span>F, <span class="dt">nb.chains =</span> <span class="dv">1</span>, 
+  <span class="dt">nbiter.saemix =</span> <span class="kw">c</span>(K1,K2),<span class="dt">displayProgress=</span><span class="ot">TRUE</span>,<span class="dt">save.graphs=</span><span class="ot">FALSE</span>)
+saemix.fit&lt;-<span class="kw">saemix</span>(model,saemix.data,saemix.options)</code></pre></div>
+<p><img src="figures/popparam_tte.png" width="100%" style="display: block; margin: auto;" /></p>
+
 </div>
 </div>
             </section>

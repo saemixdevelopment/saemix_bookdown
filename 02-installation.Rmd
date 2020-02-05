@@ -4,18 +4,23 @@
 
 
 
-<!-- Windows installer -->
+<!-- CRAN -->
 
-## `saemix`
-Information on how to install 'saemix' and its dependencies on different platforms can be found on the [`saemix` pkgdown site](https://saemixdevelopment.github.io/saemix/index.html). Separate information can be found on [`RxODE` pkgdown site](https://saemixdevelopment.github.io/RxODE/index.html).
+## `CRAN`
+You can either install the package directly from your R console
 
+```
+install.packages("saemix")
+```
 
-<!-- docker installation  -->
-### Installation via GitHub
+<!-- Github -->
+## `Github`: Build from source
+You can also build it from Github using the R package "devtools"
 
-To Complete
+```
+library("devtools")
 
+install_github("saemixdevelopment/saemix" )
 
-<!-- shinyMixR -->
-## `shinyMixR`: project management tool
-A user-friendly tool was developed for `saemix` based on [`Shiny`](http://shiny.rstudio.com/) 
+library(saemix)
+```

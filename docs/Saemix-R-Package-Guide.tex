@@ -190,24 +190,26 @@ Installation can range from easy to challenging, depending on the
 platform. We are in the process of streamlining this process, and any
 help or suggestions are greatly appreciated!
 
-\section{\texorpdfstring{\texttt{saemix}}{saemix}}\label{saemix}
+\section{\texorpdfstring{\texttt{CRAN}}{CRAN}}\label{cran}
 
-Information on how to install `saemix' and its dependencies on different
-platforms can be found on the
-\href{https://saemixdevelopment.github.io/saemix/index.html}{\texttt{saemix}
-pkgdown site}. Separate information can be found on
-\href{https://saemixdevelopment.github.io/RxODE/index.html}{\texttt{RxODE}
-pkgdown site}.
+You can either install the package directly from your R console
 
-\subsection{Installation via GitHub}\label{installation-via-github}
+\begin{verbatim}
+install.packages("saemix")
+\end{verbatim}
 
-To Complete
+\section{\texorpdfstring{\texttt{Github}: Build from
+source}{Github: Build from source}}\label{github-build-from-source}
 
-\section{\texorpdfstring{\texttt{shinyMixR}: project management
-tool}{shinyMixR: project management tool}}\label{shinymixr-project-management-tool}
+You can also build it from Github using the R package ``devtools''
 
-A user-friendly tool was developed for \texttt{saemix} based on
-\href{http://shiny.rstudio.com/}{\texttt{Shiny}}
+\begin{verbatim}
+library("devtools")
+
+install_github("saemixdevelopment/saemix" )
+
+library(saemix)
+\end{verbatim}
 
 \chapter{Materials}\label{materials}
 

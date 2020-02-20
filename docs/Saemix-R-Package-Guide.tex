@@ -114,7 +114,7 @@
 
 \title{\texttt{Saemix}: Open Source R package for mixed effects modeling}
 \author{Marc Lavielle, Emmanuelle Comets, Audrey Lavenu and Belhal Karimi}
-\date{2020-02-05}
+\date{2020-02-20}
 
 \begin{document}
 \maketitle
@@ -136,9 +136,10 @@ Pharmacokinetics-Pharmacodynamics (PKPD) analysis.
 
 Thus far, the main area using the package thus far is Pharmacology,
 especially to understand how drugs, under development, behave in the
-body or how the body reacts to a drug during clinical trials but we
-ought to aim at a more general audience of biostatisticians dealing with
-nonlinear mixed effects modeling.
+body or how the body reacts to a drug during clinical trials (see
+\citep{karimi2020f} or \citep{samson2006extension}) but we ought to aim
+at a more general audience of biostatisticians dealing with nonlinear
+mixed effects modeling.
 
 \begin{figure}
 
@@ -169,7 +170,7 @@ project members Marc Lavielle, see \citep{lavielle} and \citep{kuhn},
 was implemented in R in 2011 in the \texttt{saemix} R
 package\textasciitilde{}\citep{saemix2017}. Several applications of SAEM
 in agronomy, animal breeding and PKPD analysis have been published using
-\texttt{saemix}.
+\texttt{saemix}, see \citep{karimi2020f} or \citep{samson2006extension}.
 
 PK/PD analyses are now a fundamental element of the registration file
 submitted to health authority for the approval of new drugs, but NLMEM
@@ -412,7 +413,7 @@ model}\label{saemix-fit-the-noncontinuous-data-model}
 
 \NormalTok{saemix.model<-}\KeywordTok{saemixModel}\NormalTok{(}\DataTypeTok{model=}\NormalTok{cat.model,}\DataTypeTok{description=}\StringTok{"cat model"}\NormalTok{,}
   \DataTypeTok{type=}\StringTok{"likelihood"}\NormalTok{, }\DataTypeTok{psi0=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{3}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{,}
-  \DataTypeTok{dimnames=}\KeywordTok{list}\NormalTok{(}\OtherTok{NULL}\NormalTok{,}\KeywordTok{c}\NormalTok{(}\StringTok{"th1"}\NormalTok{,}\StringTok{"th2"}\NormalTok{,}\StringTok{"th3"}\NormalTok{))),}\DataTypeTok{transform.par=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{),}
+  \DataTypeTok{dimnames=}\KeywordTok{list}\NormalTok{(}\OtherTok{NULL}\NormalTok{,}\KeywordTok{c}\NormalTok{(}\StringTok{"th1"}\NormalTok{,}\StringTok{"th2"}\NormalTok{,}\StringTok{"th3"}\NormalTok{))),}\DataTypeTok{transform.par=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{),}
   \DataTypeTok{covariance.model=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{3}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{),}
   \DataTypeTok{omega.init=}\KeywordTok{matrix}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DataTypeTok{ncol=}\DecValTok{3}\NormalTok{,}\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{),}
   \DataTypeTok{error.model=}\StringTok{"constant"}\NormalTok{)}

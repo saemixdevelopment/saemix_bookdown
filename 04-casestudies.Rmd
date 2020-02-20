@@ -162,7 +162,7 @@ return(P.obs) }
 
 saemix.model<-saemixModel(model=cat.model,description="cat model",
   type="likelihood", psi0=matrix(c(2,1,2),ncol=3,byrow=TRUE,
-  dimnames=list(NULL,c("th1","th2","th3"))),transform.par=c(0,1,1),
+  dimnames=list(NULL,c("th1","th2","th3"))),transform.par=c(0,0,0),
   covariance.model=matrix(c(1,0,0,0,1,0,0,0,1),ncol=3,byrow=TRUE),
   omega.init=matrix(c(2,0,0,0,1,0,0,0,1),ncol=3,byrow=TRUE),
   error.model="constant")

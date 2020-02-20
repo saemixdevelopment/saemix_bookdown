@@ -24,7 +24,7 @@
 <meta name="author" content="Marc Lavielle, Emmanuelle Comets, Audrey Lavenu and Belhal Karimi" />
 
 
-<meta name="date" content="2020-02-05" />
+<meta name="date" content="2020-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -271,7 +271,7 @@ P.obs =<span class="st"> </span>(level==<span class="dv">0</span>)*P0+(level==<s
 
 saemix.model&lt;-<span class="kw">saemixModel</span>(<span class="dt">model=</span>cat.model,<span class="dt">description=</span><span class="st">&quot;cat model&quot;</span>,
   <span class="dt">type=</span><span class="st">&quot;likelihood&quot;</span>, <span class="dt">psi0=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">2</span>),<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>,
-  <span class="dt">dimnames=</span><span class="kw">list</span>(<span class="ot">NULL</span>,<span class="kw">c</span>(<span class="st">&quot;th1&quot;</span>,<span class="st">&quot;th2&quot;</span>,<span class="st">&quot;th3&quot;</span>))),<span class="dt">transform.par=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),
+  <span class="dt">dimnames=</span><span class="kw">list</span>(<span class="ot">NULL</span>,<span class="kw">c</span>(<span class="st">&quot;th1&quot;</span>,<span class="st">&quot;th2&quot;</span>,<span class="st">&quot;th3&quot;</span>))),<span class="dt">transform.par=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),
   <span class="dt">covariance.model=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>),
   <span class="dt">omega.init=</span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>),<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>),
   <span class="dt">error.model=</span><span class="st">&quot;constant&quot;</span>)</code></pre></div>
